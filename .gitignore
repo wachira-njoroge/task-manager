@@ -1,0 +1,4 @@
+# Exclude node modules, build output dist folder and env from version control
+.env
+node_modules
+dist
