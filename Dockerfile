@@ -7,7 +7,7 @@ WORKDIR /app
 # 3. Copy the package.json and package-lock.json files
 COPY package*.json ./
 
-RUN apk add --no-cache openssl
+RUN apt-get update && apt-get install -y openssl
 
 # Install dependencies
 RUN npm install
