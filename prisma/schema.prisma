@@ -8,13 +8,14 @@ datasource db {
 }
 
 model User {
-  id        Int     @id @default(autoincrement()) @map("user_id")
-  userName  String  @unique @map("user_name") @db.VarChar(20)
-  firstName String  @map("first_name")
-  lastName  String  @map("last_name")
-  email     String? @unique @db.VarChar(50)
-  phone     String? @unique @db.VarChar(14)
-  Task      Task[]
+  id             Int     @id @default(autoincrement()) @map("user_id")
+  userName       String  @unique @map("user_name") @db.VarChar(20)
+  firstName      String  @map("first_name")
+  lastName       String  @map("last_name")
+  email          String? @unique @db.VarChar(50)
+  phone          String? @unique @db.VarChar(14)
+  hashedPassword String  @map("hashed_password")
+  Task           Task[]
 
   @@map("user")
 }
@@ -23,11 +24,12 @@ model Task {
   id          Int        @id @default(autoincrement()) @map("task_id")
   userId      Int        @map("user_id")
   categoryId  Int        @map("category_id")
+  code        String     @unique @db.VarChar(20)
   description String?    @db.VarChar(200)
   status      TaskStatus
   startDate   DateTime?  @map("start_date") @db.Date
   endDate     DateTime?  @map("end_date") @db.Date
-  dueDate     String?    @map("due_date")
+  dueDate     DateTime?  @map("due_date") @db.Date
 
   //Relationships
   user     User     @relation(fields: [userId], references: [id])
@@ -38,7 +40,7 @@ model Task {
 
 model Category {
   id   Int    @id @default(autoincrement()) @map("category_id")
-  name String @db.VarChar(30)
+  name String @unique @db.VarChar(30)
   Task Task[]
 
   @@map("category")

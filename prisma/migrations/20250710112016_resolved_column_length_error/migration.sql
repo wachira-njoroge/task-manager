@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "task" ALTER COLUMN "code" SET DATA TYPE VARCHAR(20);
