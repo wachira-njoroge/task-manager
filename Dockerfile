@@ -1,13 +1,13 @@
 # 1. Pull Node.js image
 FROM node:20-slim AS build
 
-RUN apt-get install -y openssl
-
 # 2. Set working directory
 WORKDIR /app
 
 # 3. Copy the package.json and package-lock.json files
 COPY package*.json ./
+
+RUN apk add --no-cache openssl
 
 # Install dependencies
 RUN npm install
