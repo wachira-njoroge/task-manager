@@ -1,6 +1,9 @@
 import express, {Request, Response, NextFunction} from "express";
 import cors from 'cors'
 import dotenv from "dotenv";
+import userRoutes from "./routes/userRoutes";
+import categoryRoutes from "./routes/categoryRoutes";
+import taskRoutes from "./routes/taskRoutes";
 
 //Avail environment variables
 dotenv.config()
@@ -10,6 +13,10 @@ const port = process.env.PORT || 5400
 
 app.use(cors())
 app.use(express.json())
+
+app.use("/api/users", userRoutes)
+app.use("/api/categories", categoryRoutes)
+app.use("/api/tasks", taskRoutes)
 
 //Inform user of any errors if they occur
 app.use((err:Error, req:Request, res:Response, next: NextFunction)=>{
