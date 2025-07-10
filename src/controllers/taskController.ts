@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import { AuthenticatedRequest } from "../middleware/auth"
-import { createTask, updateTaskDetails } from "../services/taskService"
+import { createTask, getAllTasks, updateTaskDetails } from "../services/taskService"
 import { success } from "zod"
 
 export const saveTask = async(req:AuthenticatedRequest, res:Response)=>{
@@ -32,6 +32,29 @@ export const updateTask = async(req: AuthenticatedRequest, res: Response)=>{
             success: true,
             message: "Update Successful",
             data: updatedTask
+        })
+    }catch(error:any){
+        res.status(500).json({
+            success: false,
+            message: error.message || "Something went wrong"
+        })
+    }
+}
+
+export const listTasks = async(req:AuthenticatedRequest, res:Response)=>{
+    try{
+        const page = parseInt(req.query.page as string) || 1;
+        const limit = parseInt(req.query.limit as string) || 10;
+        const search = req.query.search as string;
+        const startDate = req.query.startDate as string;
+        const endDate = req.query.endDate as string;
+        //
+        const result = await getAllTasks(page, limit, startDate, endDate, search)
+        res.status(200).json({
+            success: true,
+            message: "Saved Tasks:",
+            data: result.tasks,
+            pagination: result.pagination
         })
     }catch(error:any){
         res.status(500).json({

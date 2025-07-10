@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { saveTask, updateTask } from "../controllers/taskController";
+import { listTasks, saveTask, updateTask } from "../controllers/taskController";
 import { authenticateToken } from "../middleware/auth";
 import { validateTaskData, validateTaskUpdateData } from "../utils/validators/tasks";
 
@@ -16,5 +16,10 @@ router.patch(
     authenticateToken,
     validateTaskUpdateData,
     updateTask
+)
+router.get(
+    "/list",
+    authenticateToken,
+    listTasks
 )
 export default router
