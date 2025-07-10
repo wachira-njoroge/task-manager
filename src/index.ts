@@ -16,7 +16,7 @@ app.use(express.json())
 
 //Default route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to Tasks Management System API" });
+  res.send('OK').json({ message: "Welcome to Tasks Management System API" });
 });
 
 
