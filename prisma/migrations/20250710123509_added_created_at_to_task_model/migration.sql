@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "task" ADD COLUMN     "created_on" DATE NOT NULL DEFAULT CURRENT_TIMESTAMP;

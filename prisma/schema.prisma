@@ -30,6 +30,7 @@ model Task {
   startDate   DateTime?  @map("start_date") @db.Date
   endDate     DateTime?  @map("end_date") @db.Date
   dueDate     DateTime?  @map("due_date") @db.Date
+  createdAt   DateTime   @default(now()) @map("created_on") @db.Date
 
   //Relationships
   user     User     @relation(fields: [userId], references: [id])
