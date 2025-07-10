@@ -28,3 +28,10 @@ export const getCategoryByName = async(name:string)=>{
         throw error
     }
 }
+export const getAllCategories = async()=>{
+    try{
+        return await prisma.category.findMany()   
+    }catch(error:any){
+        throw error
+    }
+}
