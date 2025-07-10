@@ -1,6 +1,8 @@
 # 1. Pull Node.js image
 FROM node:20-slim AS build
 
+RUN apt-get install -y openssl
+
 # 2. Set working directory
 WORKDIR /app
 
