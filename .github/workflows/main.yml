@@ -1,0 +1,37 @@
+name: Task-Manager
+
+on:
+  push:
+    branches: ["master"]
+jobs:
+  git-checkout:
+    runs-on: self-hosted
+    steps:
+    # Ensure the directory is clean before cloning repo
+    - name: Clean the workspace
+      run: |
+          find . -mindepth 1 -delete    
+    # Clone the repo
+    - name: Clone repository
+      run: |
+         git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} .
+    
+    # Get env file in host for use in the docker context
+    - name: Get ENV variables
+      run: cp -R /home/wachira/tasks-app/env src
+    
+    # Create an Image
+    - name: Build Docker image
+      run: |
+         docker buildx build -t tasks-app-v1 -f Dockerfile .
+        
+    # Launch a Docker container from the created image
+    - name: Launch Container
+      run: | 
+        # Stop and remove current running container and create new container from 
+        # incoming pushed code changes
+        docker stop tasks-app || true
+        docker rm tasks-app || true
+        docker run -it -dp 8090:80 --name tasks-app tasks-app-v1
+        docker system prune -a -f
+        docker image prune -a -f
