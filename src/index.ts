@@ -14,6 +14,12 @@ const port = process.env.PORT || 5400
 app.use(cors())
 app.use(express.json())
 
+//Default route
+app.get("/", (req, res) => {
+  res.json({ message: "Welcome to Tasks Management System API" });
+});
+
+
 app.use("/api/users", userRoutes)
 app.use("/api/categories", categoryRoutes)
 app.use("/api/tasks", taskRoutes)

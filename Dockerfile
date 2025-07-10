@@ -20,7 +20,7 @@ RUN npx prisma generate
 RUN npm run build
 
 # 7. Expose port 5200
-EXPOSE 5200
+EXPOSE 8090
 
 # 8. Start app
 CMD ["node", "dist/index.js"]
