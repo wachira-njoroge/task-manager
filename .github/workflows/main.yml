@@ -18,7 +18,7 @@ jobs:
     
     # Get env file in host for use in the docker context
     - name: Get ENV variables
-      run: cp -R /home/wachira/tasks-app/.env src
+      run: cp -R /home/wachira/tasks-app/.env .
     
     # Create an Image
     - name: Build Docker image
