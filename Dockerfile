@@ -15,13 +15,16 @@ RUN npm install
 # 4. Copy application files
 COPY . .
 
-# 5. Generate Prisma client
+# 5. Run the migrations on the prod environment
+RUN npx prisma migrate deploy
+
+# 6. Generate Prisma client
 RUN npx prisma generate
 
-# 6. Build TypeScript code
+# 7. Build TypeScript code
 RUN npm run build
 
-# 7. Expose port 5200
+# 8. Expose port the app will use
 EXPOSE 8090
 
 # 8. Start app
