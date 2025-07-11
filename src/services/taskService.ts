@@ -113,7 +113,11 @@ export const getAllTasks = async(
 )=>{
     try{
         const offset = (page -1) * limit
-        let where: Prisma.TaskWhereInput = {}
+        let where: Prisma.TaskWhereInput = {
+            NOT: {
+                status: 'cancelled'
+            }
+        };
         if(categorySearch){
             where.OR = [
                 {
@@ -140,6 +144,7 @@ export const getAllTasks = async(
                 }
             }
         }
+        
         const [tasks, total] = await Promise.all([
             prisma.task.findMany({
                 where,
