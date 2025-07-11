@@ -32,6 +32,6 @@ jobs:
         # incoming pushed code changes
         docker stop tasks-app || true
         docker rm tasks-app || true
-        docker run -it -dp 8090:80 --name tasks-app tasks-app-v1
+        docker run -it -dp 8090:8090 --name tasks-app tasks-app-v1
         docker system prune -a -f
         docker image prune -a -f
