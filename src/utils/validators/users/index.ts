@@ -3,9 +3,9 @@ import { Request, Response, NextFunction } from "express";
 
 const createUserSchema = z.object({
   username: z.string().nonempty({ message: "Username is a required field" }),
-  firstName: z.string().nonempty({ message: "First name is a required field" }),
-  lastName: z.string().nonempty({ message: "Last name is a required field" }),
   password: z.string().nonempty({message: "Password is a required field"}),
+  firstName: z.string().optional(),
+  lastName: z.string().optional(),  
   email: z.string().optional(),
   phone: z.string().optional(),
 });

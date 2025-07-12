@@ -4,8 +4,8 @@ import { comparePassword, hashPassword } from "../utils/hashPassword";
 
 interface UserInfo{
     username: string
-    firstName: string
-    lastName: string
+    firstName?: string
+    lastName?: string
     password: string
     email?: string
     phone?: string
@@ -33,8 +33,8 @@ export const createSystemUser = async(userData: UserInfo)=>{
         return await prisma.user.create({
             data:{
                 userName: userData.username,
-                firstName: userData.firstName,
-                lastName: userData.lastName,
+                firstName: userData.firstName || "",
+                lastName: userData.lastName || "",
                 phone: cleanedPhone,
                 hashedPassword: hashedPass
             }
@@ -47,11 +47,11 @@ export const systemLogin = async(username: string, password:string): Promise<Use
     try{
         const user = await getUserByUsername(username)
         if(!user){
-            throw new Error("Invalid credentials")
+            throw new Error("Wrong Username or Password")
         }
         const validPass = await comparePassword(password, user.hashedPassword);
         if(!validPass){
-            throw new Error("Invalid credentials")
+            throw new Error("Wrong Username or Password")
         }
         return user
     }catch(error:any){
