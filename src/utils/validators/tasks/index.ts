@@ -27,8 +27,7 @@ export const validateTaskData = async (
     if (error instanceof z.ZodError) {
       return res.status(400).json({
         success: false,
-        message: "Validation failed",
-        errors: error.issues.map((err) => ({
+        message: error.issues.map((err) => ({
           path: err.path.join("."),
           message: err.message,
         })),
