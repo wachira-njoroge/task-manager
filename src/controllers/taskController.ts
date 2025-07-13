@@ -6,11 +6,13 @@ import { success } from "zod"
 export const saveTask = async(req:AuthenticatedRequest, res:Response)=>{
     try{
         const taskInfo = await createTask(req.body, req.user!!.username)
-        res.status(201).json({
+        if(taskInfo){
+            res.status(201).json({
             success: true,
             message: "Task created successfully",
             data: taskInfo
         })
+        }
     }catch(error:any){
       res.status(500).json({
         success: false,
