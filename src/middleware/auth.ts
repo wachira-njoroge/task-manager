@@ -1,3 +1,7 @@
+/**
+ * This file handles user authentication by generating new JWT tokens upon login
+ * and veifies token validity in all authenticated routes
+ */
 import { User } from "@prisma/client"
 import { NextFunction, Response, Request } from "express"
 import jwt from 'jsonwebtoken'
@@ -14,7 +18,7 @@ export interface AuthenticatedRequest extends Request{
         phone:string | null
     }
 }
-
+// This function is used in authenticating routes
 export const authenticateToken = async(req: AuthenticatedRequest, res: Response, next: NextFunction)=>{
     const authHeader = req.headers["authorization"]
     const token = authHeader && authHeader.split(" ")[1]
@@ -38,7 +42,7 @@ export const authenticateToken = async(req: AuthenticatedRequest, res: Response,
     }
 
 }
-
+// This function is used in encoding user details in a JSONWEBTOKEn
 export const signToken = async(user:User)=>{
     const tokenData: AuthenticatedToken = {
         username: user.userName,
@@ -52,7 +56,7 @@ export const signToken = async(user:User)=>{
     const accessToken = jwt.sign(tokenData, secret, {expiresIn: "40m"})
     return { accessToken, tokenExpiresIn: 2400}
 }
-
+// This function validates token before user can access a route by provided token
 const verifyToken = async(token: string): Promise<AuthenticatedToken> => {
     try {
         const secret = process.env.JWT_SECRET_KEY;

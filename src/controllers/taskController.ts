@@ -1,7 +1,6 @@
 import { Request, Response } from "express"
 import { AuthenticatedRequest } from "../middleware/auth"
 import { createTask, getAllTasks, updateTaskDetails } from "../services/taskService"
-import { success } from "zod"
 
 export const saveTask = async(req:AuthenticatedRequest, res:Response)=>{
     try{
@@ -42,7 +41,7 @@ export const updateTask = async(req: AuthenticatedRequest, res: Response)=>{
         })
     }
 }
-
+// This functions returns a paginated taks list result, from the given limit, date range and page inputs
 export const listTasks = async(req:AuthenticatedRequest, res:Response)=>{
     try{
         const page = parseInt(req.query.page as string) || 1;
@@ -51,7 +50,7 @@ export const listTasks = async(req:AuthenticatedRequest, res:Response)=>{
         const startDate = req.query.startDate as string;
         const endDate = req.query.endDate as string;
         //
-        const result = await getAllTasks(page, limit, startDate, endDate, search)
+        const result = await getAllTasks(req.user!!.username, page, limit, startDate, endDate, search)
         res.status(200).json({
             success: true,
             message: "Saved Tasks:",

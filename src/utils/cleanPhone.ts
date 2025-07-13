@@ -1,3 +1,8 @@
+/**
+ * Ensure the contact value saved in the user table aligns with the Kenyan contacts format
+ * @param phone - takes in the user provided contact string 
+ * @returns - validated string that includes the country code
+ */
 const cleanPhone = (phone: string): string => {
   let preffix: string = "+254";
   let result: string = "";

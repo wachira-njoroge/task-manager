@@ -2,6 +2,7 @@ import { Request, Response } from "express"
 import { createCategory, getAllCategories } from "../services/categoryService"
 import { AuthenticatedRequest } from "../middleware/auth"
 
+//This function fowards validated category payload details to the category service, for creation
 export const saveCategory = async(req:AuthenticatedRequest, res:Response)=>{
     try{
         await createCategory(req.body)
@@ -16,7 +17,7 @@ export const saveCategory = async(req:AuthenticatedRequest, res:Response)=>{
       })
     }
 }
-
+// This function returns all the saved system categories
 export const listCategories = async(req:AuthenticatedRequest, res:Response)=>{
     try{
         const categories = await getAllCategories()

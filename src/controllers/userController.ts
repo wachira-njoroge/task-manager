@@ -2,7 +2,10 @@ import { Request, Response } from "express";
 import { createSystemUser, systemLogin } from "../services/userService";
 import { signToken } from "../middleware/auth";
 
-
+/**
+ *This function handles the signup flow after route data is validated 
+ and sends the data to the user service for further processing and finally saving 
+ */
 export const createUser = async(req: Request, res: Response)=>{
     try{
         await createSystemUser(req.body)
@@ -17,7 +20,7 @@ export const createUser = async(req: Request, res: Response)=>{
         })
     }
 }
-
+// This function returns a signed token after user credentials are successfully validated
 export const loginUser = async(req: Request, res: Response)=>{
     try{
         const {username, password} = req.body

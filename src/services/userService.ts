@@ -11,6 +11,9 @@ interface UserInfo{
     phone?: string
 }
 const prisma = new PrismaClient()
+/**This function creates a new user record after cleaning the 
+ * @param userData - takes in the validated user data input
+ */
 export const createSystemUser = async(userData: UserInfo)=>{
     try{
         let cleanedPhone
@@ -43,6 +46,10 @@ export const createSystemUser = async(userData: UserInfo)=>{
         throw error
     }
 }
+/**
+ * This function returns the user entity record by the given username if it exists..after which the record details are encoded
+ * @param username - User identity
+ */ 
 export const systemLogin = async(username: string, password:string): Promise<User|null>=>{
     try{
         const user = await getUserByUsername(username)
@@ -58,7 +65,7 @@ export const systemLogin = async(username: string, password:string): Promise<Use
         throw error
     }
 }
-
+// This function retrieves user by username
 export const getUserByUsername = async(username: string)=>{
     try{
         return await prisma.user.findFirst({

@@ -12,7 +12,12 @@ interface TaskInfo{
 }
 //
 const prisma = new PrismaClient()
-//
+/**
+ * This function takes in the tasks details as provided by the user in payload
+ * @param payload - takes in the tasks payload data to save
+ * @param loggedInUser - the link to the tasks creator/owner
+ * @returns 
+ */
 export const createTask = async(payload: TaskInfo, loggedInUser:string)=>{
     try{
         const usr = await getUserByUsername(loggedInUser)
@@ -35,6 +40,13 @@ export const createTask = async(payload: TaskInfo, loggedInUser:string)=>{
         throw error
     }
 }
+/**
+ * This function performs all user update to the saved tasks
+ * @param payload - the update details provided 
+ * @param action - determines the update stage i.e starting, completing or cancelling a task
+ * @param taskCode - aids in identifying the record uniquely from the database
+ * @returns 
+ */
 export const updateTaskDetails = async(payload: TaskInfo, action: string, taskCode:string)=>{
     try{
         const taskToUpdate = await getTaskByCode(taskCode)
@@ -92,6 +104,7 @@ export const updateTaskDetails = async(payload: TaskInfo, action: string, taskCo
         throw error
     }
 }
+// This function retrieves a task by the given unique column
 export const getTaskByCode = async(code:string)=>{
     try{
          return await prisma.task.findUnique({
@@ -103,8 +116,17 @@ export const getTaskByCode = async(code:string)=>{
         throw error
     }
 }
-
+/**
+ * This function retrieves all tasks associated to the logged in user
+ * @param page - sets the starting point of each data retrieval request
+ * @param limit - sets the chunk size to retrieve
+ * @param startDate - helps in filtering the records by date range
+ * @param endDate 
+ * @param categorySearch - aids in retrieving data grouped by category 
+ * @returns 
+ */
 export const getAllTasks = async(
+    loggedInUser: string,
     page: number,
     limit: number,
     startDate?: string,
@@ -112,11 +134,14 @@ export const getAllTasks = async(
     categorySearch?: string
 )=>{
     try{
+        //Get the logged in user
+        const user = await getUserByUsername(loggedInUser)
         const offset = (page -1) * limit
         let where: Prisma.TaskWhereInput = {
             NOT: {
                 status: 'cancelled'
-            }
+            },
+            userId: user?.id
         };
         if(categorySearch){
             where.OR = [
@@ -177,7 +202,7 @@ export const getAllTasks = async(
         throw error
     }
 }
-//
+// This function creates a random 4 digit that will be assigned as the task code 
 const randomNumber = ():number=>{
     return Math.floor(Math.random() * 900) + 1000;
 }

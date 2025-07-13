@@ -1,3 +1,7 @@
+/**
+ * This file is intended to validate user payload input whereby user is notified of
+ *  fields that dont meet requirements
+ */
 import { z } from "zod";
 import { Request, Response, NextFunction } from "express";
 
